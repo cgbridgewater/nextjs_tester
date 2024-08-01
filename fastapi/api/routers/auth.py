@@ -2,11 +2,13 @@
 from datetime import timedelta, datetime, timezone
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
+import re
+from pydantic import BaseModel, field_validator
 from fastapi.security import OAuth2PasswordRequestForm
 from jose import jwt
 from dotenv import load_dotenv
 import os
+
 from models import User  # Import User model from models
 from deps import db_dependency, bcrypt_context  # Import dependencies for database and bcrypt context
 
@@ -27,6 +29,31 @@ ALGORITHM = os.getenv('AUTH_ALGORITHM')
 class UserCreateRequest(BaseModel):
     username: str  # Username field
     password: str  # Password field
+
+    # Add a field validator for the password
+    @field_validator('password')
+    def validate_password(cls, password: str) -> str:
+        # Check the password length
+        if not (8 <= len(password) <= 20):
+            raise ValueError("Password must be between 8 and 20 characters long.")
+        
+        # Check for at least one uppercase letter
+        if not re.search(r'[A-Z]', password):
+            raise ValueError("Password must contain at least one uppercase letter.")
+        
+        # Check for at least one lowercase letter
+        if not re.search(r'[a-z]', password):
+            raise ValueError("Password must contain at least one lowercase letter.")
+        
+        # Check for at least one digit
+        if not re.search(r'\d', password):
+            raise ValueError("Password must contain at least one number.")
+        
+        # Check for at least one special character
+        if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+            raise ValueError("Password must contain at least one special character.")
+        
+        return password  # Return the valid password
 
 # Pydantic model for the token response
 class Token(BaseModel):
@@ -80,3 +107,10 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     
     # Return the access token and its type
     return {'access_token': token, 'token_type': 'bearer'}
+
+# Endpoint to log out a user
+@router.post('/logout', status_code=status.HTTP_302_FOUND)  # appropriate status code for redirection
+async def logout():
+    # In a stateless JWT scenario, we just respond to indicate that logout was successful.
+    # If we had a token blacklist, we would process it here.
+    return {"detail": "User logged out successfully. Please remove the token on the client side."}
