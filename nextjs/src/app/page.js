@@ -197,6 +197,7 @@ const Home = () => {
                     <div className="card" key={routine.id}>
                       <div className="card-body">
                         <h5 className="card-title">{routine.name}</h5>
+                        <p className="card-title">{routine.description}</p>
                         <ul className="card-text"> 
                           {routine.workouts && routine.workouts.map(workout => (
                             <li key={workout.id}>
