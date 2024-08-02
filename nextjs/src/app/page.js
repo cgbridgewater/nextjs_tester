@@ -55,6 +55,21 @@ const Home = () => {
     }
   };
 
+  // const handleCreateRoutine = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.post('http://localhost:8000/routines', {
+  //       name: routineName,
+  //       description: routineDescription,
+  //       workouts: selectedWorkouts,
+  //     });
+  //     setRoutineName('');
+  //     setRoutineDescription('');
+  //     setSelectedWorkouts([]);
+  //   } catch (error) {
+  //     console.error('Failed to create routine:', error);
+  //   }
+  // };
   const handleCreateRoutine = async (e) => {
     e.preventDefault();
     try {
@@ -63,6 +78,9 @@ const Home = () => {
         description: routineDescription,
         workouts: selectedWorkouts,
       });
+      // Update routines state with the new routine
+      setRoutines([...routines, response.data]);
+      // Reset the input fields
       setRoutineName('');
       setRoutineDescription('');
       setSelectedWorkouts([]);
@@ -179,7 +197,6 @@ const Home = () => {
                     <div className="card" key={routine.id}>
                       <div className="card-body">
                         <h5 className="card-title">{routine.name}</h5>
-                        <p className="card-text">{routine.description}</p>
                         <ul className="card-text"> 
                           {routine.workouts && routine.workouts.map(workout => (
                             <li key={workout.id}>
