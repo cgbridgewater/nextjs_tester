@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ childern }) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const router = useRouter();
 
@@ -15,7 +15,7 @@ export const AuthProvider = ({ childern }) => {
             const formData = new FormData();
             formData.append('username', username);
             formData.append('password', password);
-            const response = await axios.post('http//localhost:8000/auth/token', formData, {
+            const response = await axios.post('http://localhost:8000/auth/token', formData, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             });
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
@@ -23,7 +23,7 @@ export const AuthProvider = ({ childern }) => {
             setUser(response.data);
             router.push('/');
         } catch (error) {
-            console.log("Login Failed", error);
+            console.log('Login Failed:', error);
         }
     };
 
@@ -34,8 +34,8 @@ export const AuthProvider = ({ childern }) => {
     };
 
     return (
-        <AuthContext.Provider value={{user, login, logout}}>
-            {childern}
+        <AuthContext.Provider value={{ user, login, logout}}>
+            {children}
         </AuthContext.Provider>
     );
 };

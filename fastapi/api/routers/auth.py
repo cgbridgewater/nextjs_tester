@@ -107,10 +107,3 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     
     # Return the access token and its type
     return {'access_token': token, 'token_type': 'bearer'}
-
-# Endpoint to log out a user
-@router.post('/logout', status_code=status.HTTP_302_FOUND)  # appropriate status code for redirection
-async def logout():
-    # In a stateless JWT scenario, we just respond to indicate that logout was successful.
-    # If we had a token blacklist, we would process it here.
-    return {"detail": "User logged out successfully. Please remove the token on the client side."}

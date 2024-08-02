@@ -15,12 +15,12 @@ const Home = () => {
   const [routineDescription, setRoutineDescription] = useState('');
   const [selectedWorkouts, setSelectedWorkouts] = useState([]);
 
-  const token = localStorage.getItem('token');
-
+  
   useEffect(() => {
+    const token = localStorage.getItem('token');
     const fetchWorkoutsAndRoutines = async () => {
       try {
-        const token = localStorage.getItem('token'); 
+        // const token = localStorage.getItem('token'); 
         const [workoutsResponse, routinesResponse] = await Promise.all([
           axios.get('http://localhost:8000/workouts/workouts', {
             headers: { Authorization: `Bearer ${token}` },
@@ -166,31 +166,36 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        <div>
-          <h3>Your routines:</h3>
-          
-          <ul>
-          {routines.map(routine => (
-              <div className="card" key={routine.id}>
-                <div className="card-body">
-                <h5 className="card-title">{routine.name}</h5>
-                <p className="card-text">{routine.description}</p>
-                <ul className="card-text"> 
-                  {routine.workouts && routine.workouts.map(workout => (
-                    <li key={workout.id}>
-                      {workout.name}: {workout.description}
-                    </li>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingThree">
+              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Your Routines
+              </button>
+            </h2>
+            <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div className="accordion-body">
+                <ul>
+                {routines.map(routine => (
+                    <div className="card" key={routine.id}>
+                      <div className="card-body">
+                        <h5 className="card-title">{routine.name}</h5>
+                        <p className="card-text">{routine.description}</p>
+                        <ul className="card-text"> 
+                          {routine.workouts && routine.workouts.map(workout => (
+                            <li key={workout.id}>
+                              {workout.name}: {workout.description}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   ))}
                 </ul>
-                
-                </div>
               </div>
-            ))}
-
-          </ul>
+            </div>
+          </div>
         </div>
+
       </div>
     </ProtectedRoute>
   );
