@@ -48,8 +48,10 @@ def create_routine(db: db_dependency, user: user_dependency, routine: RoutineCre
     return db_routines  # Returning the newly created routine with workouts
 
 # Route for deleting a routine by ID
-@router.delete('/')  # DELETE request to remove a routine
-def delete_routine(db: db_dependency, user: user_dependency, routine_id: int):
+# @router.delete('/{routine_id}')  # DELETE request to remove a routine
+# def delete_routine(db: db_dependency, user: user_dependency, routine_id: int):
+@router.delete('/{routine_id}')  # DELETE request to remove a routine
+def delete_routine(routine_id: int, db: db_dependency, user: user_dependency):
     # Querying the database for the routine to be deleted
     db_routine = db.query(Routine).filter(Routine.id == routine_id).first()
     if db_routine:  # If the routine exists, delete it

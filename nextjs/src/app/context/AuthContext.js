@@ -8,6 +8,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loginError, setLoginError] = useState("");
+    const [userName, setUserName] = useState("");
     const router = useRouter();
 
     const login = async (username, password) => {
@@ -21,20 +23,25 @@ export const AuthProvider = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
             localStorage.setItem('token', response.data.access_token);
             setUser(response.data);
+            setUserName(username);
             router.push('/');
         } catch (error) {
             console.log('Login Failed:', error);
+            setLoginError( error.response.data.detail);
+            const modal = new window.bootstrap.Modal(modalRef.current);
+            modal.show();
         }
     };
 
     const logout = () => {
         setUser(null);
+        setUserName("");
         delete axios.defaults.headers.common['Authorization'];
         router.push('/login')
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout}}>
+        <AuthContext.Provider value={{ user, userName, login, logout, loginError, setLoginError}}>
             {children}
         </AuthContext.Provider>
     );

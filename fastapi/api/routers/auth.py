@@ -35,23 +35,23 @@ class UserCreateRequest(BaseModel):
     def validate_password(cls, password: str) -> str:
         # Check the password length
         if not (8 <= len(password) <= 20):
-            raise ValueError("Password must be between 8 and 20 characters long.")
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password must be between 8 and 20 characters long.")
         
         # Check for at least one uppercase letter
         if not re.search(r'[A-Z]', password):
-            raise ValueError("Password must contain at least one uppercase letter.")
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password must contain at least one uppercase letter.")
         
         # Check for at least one lowercase letter
         if not re.search(r'[a-z]', password):
-            raise ValueError("Password must contain at least one lowercase letter.")
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password must contain at least one lowercase letter.")
         
         # Check for at least one digit
         if not re.search(r'\d', password):
-            raise ValueError("Password must contain at least one number.")
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password must contain at least one number.")
         
         # Check for at least one special character
         if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
-            raise ValueError("Password must contain at least one special character.")
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password must contain at least one special character.")
         
         return password  # Return the valid password
 
