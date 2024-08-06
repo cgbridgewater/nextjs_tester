@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import axios from 'axios';
 
 const Home = () => {
-  const { user, userName, logout } = useContext(AuthContext);
+  const { userName, logout } = useContext(AuthContext);
   const [workouts, setWorkouts] = useState([]);
   const [routines, setRoutines] = useState([]);
   const [workoutName, setWorkoutName] = useState('');
@@ -88,7 +88,7 @@ const Home = () => {
     }
   };
 
-  // 
+  // Standardize User Name Display
   const capitalize = (str) => 
       str.split(' ')
       .map(word => word
