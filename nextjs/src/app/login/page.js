@@ -14,6 +14,8 @@ const Login = () => {
     const modalRef = useRef(null);
 
 
+    
+
     // LOGIN FUNCTION - PASSES TO AUTH CONTEXT
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,9 +24,8 @@ const Login = () => {
         } catch (error) {
             setErrorMessage(error.message);  // Error message comes from login function
             setModalTitle("LOGIN ERROR");  //Set Error Title for Error Modal
-            // Construct and Open the modal
-            const modal = new window.bootstrap.Modal(modalRef.current);
-            modal.show();
+            const modal = new window.bootstrap.Modal(modalRef.current);  // Create Modal
+            modal.show();  // Open Modal
         }
     };
 
@@ -37,9 +38,8 @@ const Login = () => {
         } catch (error) {
             setErrorMessage(error.message);  // Error message comes from register function
             setModalTitle("REGISTRATION ERROR");  //Set Error Title for Error Modal
-            // Construct and Open the modal
-            const modal = new window.bootstrap.Modal(modalRef.current);
-            modal.show();
+            const modal = new window.bootstrap.Modal(modalRef.current);  // Create Modal
+            modal.show();  // Open Modal
         }
     };
 
