@@ -1,3 +1,5 @@
+# This is just a play app, built to test components while playing with nextjs and fastapi (connected to sqlite)
+
 # virtual enviroment is required!!
 
 ## Backend FastAPI -
