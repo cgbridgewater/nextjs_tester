@@ -12,7 +12,7 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
-    "next": "14.2.5",
+    "next": "14.2.26",
     "nodemailer": "^6.9.14",
     "postcss": "^8.4.41",
     "react": "^18",
